@@ -9,20 +9,19 @@ def n_gramas(palavras, n):
 
 
 def limpa_texto(texto):
-  # <INSIRA SEU CÓDIGO AQUI>
-  placeholder1 = 0
+  characters = [char for char in texto]
+  characters = [bracketsRight for bracketsRight in characters if bracketsRight != ',']
+  characters = [bracketsLeft for bracketsLeft in characters if bracketsLeft != '.']
+  characters = [numeric for numeric in characters if not numeric.isnumeric()]
+  newText =''.join(characters)
+  newWords = (newText.split(' ' or '  '))
+  return newWords
 
-def le_linhas_arquivo(arquivo):
-  
+def le_linhas_arquivo(arquivo):  
   linhas = []
   try:
-    file1 = open("myfile.txt", "w")
-    L = ["This is Delhi \n", "This is Paris \n", "This is London \n"]
-
-    # Writing data to a file
-    file1.write("Hello \n") 
-    file1.writelines(L)
-    file1.close()
+    with open(arquivo, 'r', encoding='utf-8') as f:
+      linhas = f.readlines()
 
   except IOError:
     print("Erro ao abrir o arquivo {arquivo}")
@@ -62,7 +61,7 @@ def busca_sugestoes_correcao(palavras_oov, vocabulario):
 
 def main():
   # Abra o arquivo de texto e carregue o seu conteudo
-  exemplo_texto = "".jon(le_linhas_arquivo("exemplo_texto.txt"))
+  exemplo_texto = "".join(le_linhas_arquivo("exemplo_texto.txt"))
   
   # Gera a lista de palavras do texto
   texto_limpo = limpa_texto(exemplo_texto)
