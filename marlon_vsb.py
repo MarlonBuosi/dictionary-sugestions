@@ -4,9 +4,9 @@
 # Data: 25/09/2021
 
 def n_gramas(palavras, n):
-  # <INSIRA SEU CÓDIGO AQUI>
-  placeholder0 = 0
-
+  sequencias = [palavras[i:] for i in range(n)]
+  ngramas = zip(sequencias[0], sequencias[1], sequencias[2])
+  return [" ".join(ngrama) for ngrama in ngramas]
 
 def limpa_texto(texto):
   translation = texto.maketrans('', '', '.,%]["$&:0123456789')
