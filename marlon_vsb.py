@@ -9,15 +9,13 @@ def n_gramas(palavras, n):
 
 
 def limpa_texto(texto):
-  characters = [char for char in texto]
-  characters = [bracketsRight for bracketsRight in characters if bracketsRight != ',']
-  characters = [bracketsLeft for bracketsLeft in characters if bracketsLeft != '.']
-  characters = [numeric for numeric in characters if not numeric.isnumeric()]
-  newText =''.join(characters)
-  newWords = (newText.split(' ' or '  '))
-  return newWords
+  translation = texto.maketrans('', '', '.,%]["$&:0123456789')
+  texto_limpo = texto.translate(translation)
+  texto_limpo.replace('\n', '  ')
+  return " ".join(texto_limpo.split())
 
-def le_linhas_arquivo(arquivo):  
+def le_linhas_arquivo(arquivo):
+  
   linhas = []
   try:
     with open(arquivo, 'r', encoding='utf-8') as f:
