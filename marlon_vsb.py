@@ -30,12 +30,12 @@ def carrega_arquivo():
   placeholder3 = 0
 
 def grava_em_arquivo(linhas, arquivo, modo='w'):
-
   try:
-      # <INSIRA SEU CÓDIGO AQUI>
-      placeholder4 = 0
+    with open(arquivo, modo) as f:
+      f.writelines(linhas)
+
   except IOError:
-      print("Erro ao abrir o arquivo {arquivo}")
+    print("Erro ao abrir o arquivo {arquivo}")
 
 def carrega_dicionario(arquivo_dicionario):
   # <INSIRA SEU CÓDIGO AQUI>
