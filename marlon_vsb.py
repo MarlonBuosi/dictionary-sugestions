@@ -5,7 +5,7 @@
 
 def n_gramas(palavras, n):
   sequencias = [palavras[i:] for i in range(n)]
-  ngramas = zip(sequencias[0], sequencias[1], sequencias[2])
+  ngramas = zip(sequencias*)
   return [" ".join(ngrama) for ngrama in ngramas]
 
 def limpa_texto(texto):
