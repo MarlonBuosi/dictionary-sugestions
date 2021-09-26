@@ -38,8 +38,20 @@ def grava_em_arquivo(linhas, arquivo, modo='w'):
     print("Erro ao abrir o arquivo {arquivo}")
 
 def carrega_dicionario(arquivo_dicionario):
-  # <INSIRA SEU CÓDIGO AQUI>
-  placeholder=6 = 0
+    
+  linhas = []
+  try:
+    with open(arquivo_dicionario, 'r', encoding='utf-8') as f:
+      linhas = f.readlines()
+
+    dicionario = [palavras.split() for palavras in linhas]
+    for numeros_palavras in dicionario:
+      numeros_palavras[1] = int(numeros_palavras[1])
+
+  except IOError:
+    print("Erro ao abrir o arquivo {arquivo}")
+  
+  return dicionario
 
 def conta_mais_frequente(colecao):
   vezes_que_repete = {}
