@@ -42,11 +42,12 @@ def carrega_dicionario(arquivo_dicionario):
   placeholder=6 = 0
 
 def conta_mais_frequente(colecao):
-  vezes_que_repete = []
+  vezes_que_repete = {}
   for gramas in colecao:
-    vezes_que_repete.append(colecao.count(gramas))
-  frequencia = max(vezes_que_repete)
-  return frequencia
+    vezes_que_repete[colecao.count(gramas)] = gramas
+  frequencia = vezes_que_repete.items()
+  
+  return max(frequencia)
     
 def gera_lista_unica(palavras):
   # <INSIRA SEU CÓDIGO AQUI>
