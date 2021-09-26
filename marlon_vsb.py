@@ -62,8 +62,8 @@ def conta_mais_frequente(colecao):
   return max(frequencia)
     
 def gera_lista_unica(palavras):
-  # <INSIRA SEU CÓDIGO AQUI>
-  placeholder7 = 0
+  lista_unica = sorted(set(palavras))
+  return lista_unica
 
 def busca_palavras_oov(palavras, vocabulario):
   # <INSIRA SEU CÓDIGO AQUI>
