@@ -81,9 +81,9 @@ def main():
   tri_mais_frequente = conta_mais_frequente(trigramas)
 
   # Monta as linhas com as informações de frequencia
-  info_frequencia = f"Unigrama mais frequente: {uni_mais_frequente[0]} Total: {uni_mais_frequente[1]}\n"
-  info_frequencia += f"Bigrama mais frequente: {bi_mais_frequente[0]} Total: {bi_mais_frequente[1]}\n"
-  info_frequencia += f"Trigrama mais frequente: {tri_mais_frequente[0]} Total: {tri_mais_frequente[1]}\n"
+  info_frequencia = f"Unigrama mais frequente: '{uni_mais_frequente[1]}' Total: {uni_mais_frequente[0]}\n"
+  info_frequencia += f"Bigrama mais frequente: '{bi_mais_frequente[1]}' Total: {bi_mais_frequente[0]}\n"
+  info_frequencia += f"Trigrama mais frequente: '{tri_mais_frequente[1]}' Total: {tri_mais_frequente[0]}\n"
   
   # Grava as frequencias em um arquivo
   grava_em_arquivo(info_frequencia, "contagens.txt")
