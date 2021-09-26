@@ -65,13 +65,16 @@ def gera_lista_unica(palavras):
   lista_unica = sorted(set(palavras))
   return lista_unica
 
-def busca_palavras_oov(palavras, vocabulario):
-  # <INSIRA SEU CÓDIGO AQUI>
-  placeholder8 = 0
+def busca_palavras_oov(palavras, vocabulario): 
+  for palavras_em_palavras in palavras:
+    for palavras_em_vocabulario in vocabulario:
+      if palavras_em_palavras == palavras_em_vocabulario:
+        palavras.remove(palavras_em_vocabulario)
+
+  return palavras
 
 def busca_sugestoes_correcao(palavras_oov, vocabulario):
-  placeholder9 = 0
-  # <INSIRA SEU CÓDIGO AQUI>
+  return 1
 
 def main():
   # Abra o arquivo de texto e carregue o seu conteudo
