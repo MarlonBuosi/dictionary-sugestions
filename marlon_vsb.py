@@ -66,11 +66,10 @@ def gera_lista_unica(palavras):
   return lista_unica
 
 def busca_palavras_oov(palavras, vocabulario): 
-  for palavras_em_palavras in palavras:
-    for palavras_em_vocabulario in vocabulario:
-      if palavras_em_palavras == palavras_em_vocabulario:
-        palavras.remove(palavras_em_vocabulario)
+  palavras_oov = []
   palavras = [palavra.lower() for palavra in palavras]
+  palavras_oov = list(set(palavras).difference(vocabulario))
+  return palavras_oov
 
   return palavras
 
