@@ -75,7 +75,23 @@ def busca_palavras_oov(palavras, vocabulario):
   return palavras
 
 def busca_sugestoes_correcao(palavras_oov, vocabulario):
-  return 1
+  contador = 0
+  sugestoes = []
+
+  for palavras in palavras_oov:
+    for palavras_vocabulario in vocabulario:
+      if len(palavras) == len(palavras_vocabulario):
+        caracteres = [char for char in palavras]
+        caracteres_vocabulario = [char_vocabulario for char_vocabulario in palavras_vocabulario]
+        for i in range(len(caracteres)):
+          if caracteres[i] == caracteres_vocabulario[i]:
+            contador += 1
+        comparacoes = palavras, palavras_vocabulario, contador
+        sugestoes.append(comparacoes)
+        contador = 0
+  sugestoes.sort(reverse=True, key=lambda tuplas: tuplas[2])
+
+  return sugestoes
 
 def main():
   # Abra o arquivo de texto e carregue o seu conteudo
