@@ -6,7 +6,7 @@
 def n_gramas(palavras, n):
   sequencias = [palavras[i:] for i in range(n)]
   ngramas = zip(*sequencias)
-  
+
   return [" ".join(ngrama) for ngrama in ngramas]
 
 def limpa_texto(texto):
@@ -140,4 +140,4 @@ def main():
   grava_em_arquivo(linhas_sugestoes, "palavras_alienigenas.txt")
 
 if __name__ == __name__=='__main__':
-    main()
+  main()
