@@ -6,12 +6,14 @@
 def n_gramas(palavras, n):
   sequencias = [palavras[i:] for i in range(n)]
   ngramas = zip(*sequencias)
+  
   return [" ".join(ngrama) for ngrama in ngramas]
 
 def limpa_texto(texto):
   translation = texto.maketrans('', '', '.,%]["$&:0123456789')
   texto_limpo = texto.translate(translation)
   texto_limpo.replace('\n', '  ')
+
   return " ".join(texto_limpo.split())
 
 def le_linhas_arquivo(arquivo):
@@ -25,9 +27,6 @@ def le_linhas_arquivo(arquivo):
     print("Erro ao abrir o arquivo {arquivo}")
 
   return linhas
-
-def carrega_arquivo():
-  placeholder3 = 0
 
 def grava_em_arquivo(linhas, arquivo, modo='w'):
   try:
@@ -49,7 +48,7 @@ def carrega_dicionario(arquivo_dicionario):
       numeros_palavras[1] = int(numeros_palavras[1])
 
   except IOError:
-    print("Erro ao abrir o arquivo {arquivo}")
+    print("Erro ao abrir o arquivo {arquivo_dicionario}")
   
   return dicionario
 
@@ -63,15 +62,15 @@ def conta_mais_frequente(colecao):
     
 def gera_lista_unica(palavras):
   lista_unica = sorted(set(palavras))
+
   return lista_unica
 
 def busca_palavras_oov(palavras, vocabulario): 
   palavras_oov = []
   palavras = [palavra.lower() for palavra in palavras]
   palavras_oov = list(set(palavras).difference(vocabulario))
-  return palavras_oov
 
-  return palavras
+  return palavras_oov
 
 def busca_sugestoes_correcao(palavras_oov, vocabulario):
   contador = 0
