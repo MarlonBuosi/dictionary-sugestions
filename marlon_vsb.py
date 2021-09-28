@@ -31,7 +31,7 @@ def carrega_arquivo():
 
 def grava_em_arquivo(linhas, arquivo, modo='w'):
   try:
-    with open(arquivo, modo) as f:
+    with open(arquivo, modo, encoding='utf-8') as f:
       f.writelines(linhas)
 
   except IOError:
