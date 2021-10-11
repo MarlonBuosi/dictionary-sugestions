@@ -75,19 +75,19 @@ def busca_palavras_oov(words, vocabulary):
 
   return oov_words
 
-def busca_sugestoes_correcao(palavras_oov, vocabulario):
-  sugestoes = []
+def find_sugestions(oov_words, vocabulary):
+  sugestions = []
 
-  for palavras in palavras_oov:
-    lista = []
-    for palavras_vocabulario in vocabulario:
+  for words in oov_words:
+    list = []
+    for vocabulary_words in vocabulary:
       count = 0
-      if len(palavras) == len(palavras_vocabulario): count = sum(1 for a, b in zip(palavras, palavras_vocabulario) if a == b)
-      lista.append((palavras, palavras_vocabulario, count))
-    sugestoes.append((max(lista, key=lambda x: x[2])))
+      if len(words) == len(vocabulary_words): count = sum(1 for character_a, character_b in zip(words, vocabulary_words) if character_a == character_b)
+      list.append((words, vocabulary_words, count))
+    sugestions.append((max(list, key=lambda x: x[2])))
 
-  sugestoes.sort(reverse=True, key=lambda tuplas: tuplas[2])
-  return sugestoes
+  sugestions.sort(reverse=True, key=lambda tuples: tuples[2])
+  return sugestions
 
 def main():
   # Parâmetros
@@ -129,7 +129,7 @@ def main():
   oov_words = busca_palavras_oov(unique_words, vocabulary)
   
   # Busca sugestoes de correcao
-  correction_sugestions = busca_sugestoes_correcao(oov_words, vocabulary)
+  correction_sugestions = find_sugestions(oov_words, vocabulary)
   
   # Grava as sugestões em arquivo
   lines_sugestions = []
