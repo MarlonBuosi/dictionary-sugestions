@@ -3,141 +3,139 @@
 # Disciplina: Projeto de Software II
 # Data: 25/09/2021
 
-def n_gramas(palavras, n):
-  sequencias = [palavras[i:] for i in range(n)]
-  ngramas = zip(*sequencias)
+def n_grams(words, n):
 
-  return [" ".join(ngrama) for ngrama in ngramas]
-
-def limpa_texto(texto):
-  translation = texto.maketrans('', '', '.,%]["$&:0123456789')
-  texto_limpo = texto.translate(translation)
-  texto_limpo.replace('\n', '  ')
-
-  return " ".join(texto_limpo.split())
-
-def le_linhas_arquivo(arquivo):
+  try:
+    sequencies = [words[i:] for i in range(n)]
+    ngrams = zip(*sequencies)
   
-  linhas = []
+  except IOError:
+    print("Erro ao criar ngramas")
+    return 0
+
+  return [" ".join(ngram) for ngram in ngrams]
+
+def clean_text(text, characters):
+  translation = text.maketrans('', '', characters)
+  text_clean = text.translate(translation)
+  text_clean.replace('\n', '  ')
+
+  return " ".join(text_clean.split())
+
+def read_lines(file, encode):
+  
+  lines = []
   try:
-    with open(arquivo, 'r', encoding='utf-8') as f:
-      linhas = f.readlines()
+    with open(file, 'r', encoding=encode) as f:
+      lines = f.readlines()
 
   except IOError:
     print("Erro ao abrir o arquivo {arquivo}")
 
-  return linhas
+  return lines
 
-def grava_em_arquivo(linhas, arquivo, modo='w'):
+def write_file(lines, file, encode, mode='w'):
   try:
-    with open(arquivo, modo, encoding='utf-8') as f:
-      f.writelines(linhas)
+    with open(file, mode, encoding=encode) as f:
+      f.writelines(lines)
 
   except IOError:
     print("Erro ao abrir o arquivo {arquivo}")
 
-def carrega_dicionario(arquivo_dicionario):
-    
-  linhas = []
+def load_dictionary(dictionary_file, encode):
+  
+  lines = []
   try:
-    with open(arquivo_dicionario, 'r', encoding='utf-8') as f:
-      linhas = f.readlines()
+    with open(dictionary_file, 'r', encoding=encode) as f:
+      lines = f.readlines()
 
-    dicionario = [palavras.split() for palavras in linhas]
-    for numeros_palavras in dicionario:
-      numeros_palavras[1] = int(numeros_palavras[1])
+    lexicon = [words.split() for words in lines]
+    [int(numbers_words[1]) for numbers_words in lexicon]
 
   except IOError:
     print("Erro ao abrir o arquivo {arquivo_dicionario}")
   
-  return dicionario
+  return lexicon
 
-def conta_mais_frequente(colecao):
-  vezes_que_repete = {}
-  for gramas in colecao:
-    vezes_que_repete[colecao.count(gramas)] = gramas
-  frequencia = vezes_que_repete.items()
-  
-  return max(frequencia)
+def count_frequency(colection):
+
+  frequency = (dict(zip([colection.count(grams) for grams in colection], colection))).items()
+
+  return max(frequency)
     
-def gera_lista_unica(palavras):
-  lista_unica = sorted(set(palavras))
+def unique_list(words):
+  return sorted(set(words))
 
-  return lista_unica
+def busca_palavras_oov(words, vocabulary): 
+  oov_words = []
+  words = [word.lower() for word in words]
+  oov_words = list(set(words).difference(vocabulary))
 
-def busca_palavras_oov(palavras, vocabulario): 
-  palavras_oov = []
-  palavras = [palavra.lower() for palavra in palavras]
-  palavras_oov = list(set(palavras).difference(vocabulario))
+  return oov_words
 
-  return palavras_oov
+def find_sugestions(oov_words, vocabulary):
+  sugestions = []
 
-def busca_sugestoes_correcao(palavras_oov, vocabulario):
-  contador = 0
-  sugestoes = []
+  for words in oov_words:
+    list = []
+    for vocabulary_words in vocabulary:
+      count = 0
+      if len(words) == len(vocabulary_words): count = sum(1 for character_a, character_b in zip(words, vocabulary_words) if character_a == character_b)
+      list.append((words, vocabulary_words, count))
+    sugestions.append((max(list, key=lambda x: x[2])))
 
-  for palavras in palavras_oov:
-    for palavras_vocabulario in vocabulario:
-      if len(palavras) == len(palavras_vocabulario):
-        caracteres = [char for char in palavras]
-        caracteres_vocabulario = [char_vocabulario for char_vocabulario in palavras_vocabulario]
-        for i in range(len(caracteres)):
-          if caracteres[i] == caracteres_vocabulario[i]:
-            contador += 1
-        comparacoes = palavras, palavras_vocabulario, contador
-        sugestoes.append(comparacoes)
-        contador = 0
-  sugestoes.sort(reverse=True, key=lambda tuplas: tuplas[2])
-
-  return sugestoes
+  sugestions.sort(reverse=True, key=lambda tuples: tuples[2])
+  return sugestions
 
 def main():
+  # Parâmetros
+  characters = '.,%]["$&:0123456789'
   # Abra o arquivo de texto e carregue o seu conteudo
-  exemplo_texto = "".join(le_linhas_arquivo("exemplo_texto.txt"))
+  text_example = "".join(read_lines("exemplo_texto.txt", 'utf-8'))
   
   # Gera a lista de palavras do texto
-  texto_limpo = limpa_texto(exemplo_texto)
+  text_clean = clean_text(text_example, characters)
 
   # Gera lista de palavras do texto
-  palavras_texto = texto_limpo.split()
+  text_words = text_clean.split()
 
   # Gera os bigramas e trigramas
-  bigramas = n_gramas(palavras_texto, 2)
-  trigramas = n_gramas(palavras_texto, 3)
+  bigrams = n_grams(text_words, 2)
+  trigrams = n_grams(text_words, 3)
 
   # Conta os n-gramas mais frequentes
-  uni_mais_frequente = conta_mais_frequente(palavras_texto)
-  bi_mais_frequente = conta_mais_frequente(bigramas)
-  tri_mais_frequente = conta_mais_frequente(trigramas)
+  frequent_unigram = count_frequency(text_words)
+  frequent_bigram = count_frequency(bigrams)
+  frequent_trigram = count_frequency(trigrams)
 
   # Monta as linhas com as informações de frequencia
-  info_frequencia = f"Unigrama mais frequente: '{uni_mais_frequente[1]}' Total: {uni_mais_frequente[0]}\n"
-  info_frequencia += f"Bigrama mais frequente: '{bi_mais_frequente[1]}' Total: {bi_mais_frequente[0]}\n"
-  info_frequencia += f"Trigrama mais frequente: '{tri_mais_frequente[1]}' Total: {tri_mais_frequente[0]}\n"
+  frequency_info = f"Unigrama mais frequente: '{frequent_unigram[1]}' Total: {frequent_unigram[0]}\n"
+  frequency_info += f"Bigrama mais frequente: '{frequent_bigram[1]}' Total: {frequent_bigram[0]}\n"
+  frequency_info += f"Trigrama mais frequente: '{frequent_trigram[1]}' Total: {frequent_trigram[0]}\n"
   
   # Grava as frequencias em um arquivo
-  grava_em_arquivo(info_frequencia, "contagens.txt")
+  write_file(frequency_info, "contagens.txt", 'utf-8')
   
   # Carrega as palavras do dicionario
-  linhas_dicionario = carrega_dicionario("vocabulario.txt")
-  vocabulario = [x[0] for x in linhas_dicionario]
+  dictionary_lines = load_dictionary("vocabulario.txt", 'utf-8')
+  vocabulary = [x[0] for x in dictionary_lines]
 
   # Gera lista de palavras unicas
-  palavras_unicas = gera_lista_unica(palavras_texto)
+  unique_words = unique_list(text_words)
 
   # Busca palavras fora do vocabulário
-  palavras_oov = busca_palavras_oov(palavras_unicas, vocabulario)
+  oov_words = busca_palavras_oov(unique_words, vocabulary)
   
   # Busca sugestoes de correcao
-  sugestoes_correcao = busca_sugestoes_correcao(palavras_oov, vocabulario)
+  correction_sugestions = find_sugestions(oov_words, vocabulary)
   
   # Grava as sugestões em arquivo
-  linhas_sugestoes = []
-  for sugestao in sugestoes_correcao:        
-    linha = f"Palavra OOV: {sugestao[0]} Sugestão: {sugestao[1]}\n"
-    linhas_sugestoes.append(linha)
+  lines_sugestions = []
+  for sugestion in correction_sugestions:        
+    lines = f"Palavra OOV: {sugestion[0]} Sugestão: {sugestion[1]}\n"
+    lines_sugestions.append(lines)
   
-  grava_em_arquivo(linhas_sugestoes, "palavras_alienigenas.txt")
+  write_file(lines_sugestions, "palavras_alienigenas.txt", 'utf-8')
 
 if __name__ == __name__=='__main__':
   main()
