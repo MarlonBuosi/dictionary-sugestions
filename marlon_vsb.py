@@ -2,6 +2,7 @@
 # RA: 12461539
 # Disciplina: Projeto de Software II
 # Data: 25/09/2021
+import itertools
 
 def n_grams(words, n):
   ## REVISAO
@@ -12,6 +13,7 @@ def n_grams(words, n):
   
   except IOError:
     print("Erro ao criar ngramas")
+    return 0
 
   return [" ".join(ngram) for ngram in ngrams]
 
@@ -74,22 +76,17 @@ def busca_palavras_oov(words, vocabulary):
   return oov_words
 
 def busca_sugestoes_correcao(palavras_oov, vocabulario):
-  contador = 0
   sugestoes = []
 
   for palavras in palavras_oov:
+    lista = []
     for palavras_vocabulario in vocabulario:
-      if len(palavras) == len(palavras_vocabulario):
-        caracteres = [char for char in palavras]
-        caracteres_vocabulario = [char_vocabulario for char_vocabulario in palavras_vocabulario]
-        for i in range(len(caracteres)):
-          if caracteres[i] == caracteres_vocabulario[i]:
-            contador += 1
-        comparacoes = palavras, palavras_vocabulario, contador
-        sugestoes.append(comparacoes)
-        contador = 0
-  sugestoes.sort(reverse=True, key=lambda tuplas: tuplas[2])
+      count = 0
+      if len(palavras) == len(palavras_vocabulario): count = sum(1 for a, b in zip(palavras, palavras_vocabulario) if a == b)
+      lista.append((palavras, palavras_vocabulario, count))
+    sugestoes.append((max(lista, key=lambda x: x[2])))
 
+  sugestoes.sort(reverse=True, key=lambda tuplas: tuplas[2])
   return sugestoes
 
 def main():
