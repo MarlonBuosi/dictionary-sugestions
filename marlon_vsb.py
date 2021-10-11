@@ -66,7 +66,7 @@ def count_frequency(colection):
 def unique_list(words):
   return sorted(set(words))
 
-def busca_palavras_oov(words, vocabulary): 
+def search_oov_words(words, vocabulary): 
   oov_words = []
   words = [word.lower() for word in words]
   oov_words = list(set(words).difference(vocabulary))
@@ -124,7 +124,7 @@ def main():
   unique_words = unique_list(text_words)
 
   # Busca palavras fora do vocabulário
-  oov_words = busca_palavras_oov(unique_words, vocabulary)
+  oov_words = search_oov_words(unique_words, vocabulary)
   
   # Busca sugestoes de correcao
   correction_sugestions = find_sugestions(oov_words, vocabulary)
