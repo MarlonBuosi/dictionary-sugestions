@@ -2,11 +2,9 @@
 # RA: 12461539
 # Disciplina: Projeto de Software II
 # Data: 25/09/2021
-import itertools
 
 def n_grams(words, n):
-  ## REVISAO
-  ## Considere utilizar list comprehension com slices,        
+
   try:
     sequencies = [words[i:] for i in range(n)]
     ngrams = zip(*sequencies)
